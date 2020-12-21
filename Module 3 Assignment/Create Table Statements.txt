@@ -1,0 +1,99 @@
+-------------------- CUSTOMER --------------------------------
+
+  CREATE TABLE Customer 
+   (CustNo VARCHAR(8) CONSTRAINT CustNoNotNull NOT NULL, 
+    CustName VARCHAR(30) CONSTRAINT CustNameNotNull NOT NULL, 
+    Address VARCHAR(50) CONSTRAINT AddressNotNull NOT NULL, 
+    Internal CHAR(1) CONSTRAINT InternalNotNull NOT NULL, 
+    Contact VARCHAR(35) CONSTRAINT ContractNotNull NOT NULL, 
+    Phone VARCHAR(11) CONSTRAINT CPhoneNotNull NOT NULL, 
+    City VARCHAR(30) CONSTRAINT CityNotNull NOT NULL,
+    State VARCHAR(2) CONSTRAINT StateNotNull NOT NULL, 
+    Zip VARCHAR(10) CONSTRAINT zipNotNull NOT NULL,
+    CONSTRAINT PK_CUSTOMER PRIMARY KEY (CustNo) ) ;
+	
+-------------------- EMPLOYEE --------------------------------
+
+ CREATE TABLE Employee 
+  (EmpNo VARCHAR(8) CONSTRAINT EmpNoNotNull NOT NULL, 
+   EmpName VARCHAR(35) CONSTRAINT EmpNameNotNull NOT NULL, 
+   Department VARCHAR(25) CONSTRAINT DepartmetnNotNull NOT NULL, 
+   Email VARCHAR(30) CONSTRAINT EmailNotNull NOT NULL, 
+   Phone VARCHAR(10) CONSTRAINT EPhoneNotNull NOT NULL, 
+   CONSTRAINT PK_EMPLOYEE PRIMARY KEY (EmpNo) ) ;
+
+-------------------- FACILITY --------------------------------
+
+  CREATE TABLE Facility
+  (FacNo VARCHAR(8) CONSTRAINT FacNoNotNull NOT NULL, 
+   FacName VARCHAR(30) CONSTRAINT FacNameNotNull NOT NULL,
+   CONSTRAINT PK_FACILITY PRIMARY KEY (FacNo) );  
+
+-------------------- LOCATION --------------------------------
+
+  CREATE TABLE Location
+  (LocNo VARCHAR(8) CONSTRAINT LocNoNotNull NOT NULL, 
+   FacNo VARCHAR(8) CONSTRAINT FacNoFKNotNull NOT NULL, 
+   LocName VARCHAR(30) CONSTRAINT LocNameNotNull NOT NULL,
+   CONSTRAINT PK_LOCATION PRIMARY KEY (LocNo),
+   CONSTRAINT FK_FACNO FOREIGN KEY (FacNo) REFERENCES FACILITY (FacNo) );
+   
+-------------------- RESOURCETBL --------------------------------
+
+
+  CREATE TABLE ResourceTbl
+  (ResNo VARCHAR(8) CONSTRAINT ResNoNotNull NOT NULL, 
+   ResName VARCHAR(30) CONSTRAINT ResNameNotNull NOT NULL, 
+   Rate DECIMAL(15,4) CONSTRAINT RateNotNull NOT NULL,
+   CONSTRAINT RatePositive CHECK (Rate > 0), 
+   CONSTRAINT PK_RESOURCE PRIMARY KEY (ResNo) );
+   
+   
+-------------------- EVENTREQUEST --------------------------------
+
+
+  CREATE TABLE EventRequest
+  (EventNo VARCHAR(8) CONSTRAINT EventNoNotNull NOT NULL, 
+   DateHeld DATE CONSTRAINT DateheldNotNull NOT NULL, 
+   DateReq DATE CONSTRAINT DateReqNotNull NOT NULL, 
+   CustNo VARCHAR(8) CONSTRAINT CustNoFKNotNull NOT NULL, 
+   FacNo VARCHAR(8) CONSTRAINT FacNoFK2NotNull NOT NULL, 
+   DateAuth DATE, 
+   Status VARCHAR(20) CONSTRAINT StatusNotNull NOT NULL, 
+   EstCost DECIMAL(15,4) CONSTRAINT EstCostNotNull NOT NULL, 
+   EstAudience DECIMAL(11,0) CONSTRAINT EstAudienceNotNull NOT NULL, 
+   BudNo VARCHAR(8),
+   CONSTRAINT ValidStatus CHECK (Status IN ('Pending', 'Denied', 'Approved')),
+   CONSTRAINT EstAudiencePositive CHECK (EstAudience > 0),
+   CONSTRAINT PK_EVENTREQUEST PRIMARY KEY (EventNo),
+   CONSTRAINT FK_EVENT_FACNO FOREIGN KEY (FacNo) REFERENCES FACILITY (FacNo),
+   CONSTRAINT FK_CUSTNO FOREIGN KEY (CustNo) REFERENCES CUSTOMER (CustNo) ); 
+
+-------------------- EVENTPLAN --------------------------------
+
+  CREATE TABLE EventPlan
+  (PlanNo VARCHAR(8) CONSTRAINT PlanNoNotNull NOT NULL, 
+   EventNo VARCHAR(8) CONSTRAINT EventNoFKNotNull NOT NULL, 
+   WorkDate DATE CONSTRAINT WorkDateNotNull NOT NULL, 
+   Notes VARCHAR(50), 
+   Activity VARCHAR(50) CONSTRAINT ActivityNotNull NOT NULL, 
+   EmpNo VARCHAR(8),
+   CONSTRAINT PK_EVENTPLAN PRIMARY KEY (PlanNo), 
+   CONSTRAINT FK_EMPNO FOREIGN KEY (EmpNo) REFERENCES EMPLOYEE (EmpNo),
+   CONSTRAINT FK_EVENTNO FOREIGN KEY (EventNo) REFERENCES EVENTREQUEST (EventNo) ); 
+ 
+ -------------------- EVENTPLANLINE --------------------------------
+
+  CREATE TABLE EventPlanLine
+  (PlanNo VARCHAR(8) CONSTRAINT PlanNoFKNotNull NOT NULL, 
+   LineNo INTEGER CONSTRAINT LineNoNotNull NOT NULL, 
+   TimeStart TIMESTAMP CONSTRAINT TimeStartNotNull NOT NULL, 
+   TimeEnd TIMESTAMP CONSTRAINT TimeEndNotNull NOT NULL, 
+   NumberFld INTEGER CONSTRAINT NumberFldNotNull NOT NULL, 
+   LocNo VARCHAR(8) CONSTRAINT LocNoFKNotNull NOT NULL, 
+   ResNo VARCHAR(8) CONSTRAINT ResNoFKNotNull NOT NULL,
+   CONSTRAINT TimeStartEndRelationship CHECK (TimeStart < TimeEnd), 
+   CONSTRAINT PK_EVENTPLANLINE PRIMARY KEY (PlanNo, LineNo),
+   CONSTRAINT FK_LOCNO FOREIGN KEY (LocNo) REFERENCES LOCATION (LocNo), 
+   CONSTRAINT FK_RESNO FOREIGN KEY (ResNo) REFERENCES RESOURCETBL (ResNo), 
+   CONSTRAINT FK_PLANNO FOREIGN KEY (PlanNo) REFERENCES EVENTPLAN (PlanNo) ); 
