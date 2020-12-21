@@ -22,4 +22,4 @@ It consists following tables:
 
 Schema diagram of this database:
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/jayedhussain/Database-Management-Essentials/blob/main/Images/ICADBSCHEMA.png "Relational Database Diagram for the Intercollegiate Athletic Database ")
