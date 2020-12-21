@@ -19,3 +19,7 @@ It consists following tables:
 6. EventRequest
 7. EventPlan
 8. EventPlanLine
+
+Schema diagram of this database:
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
