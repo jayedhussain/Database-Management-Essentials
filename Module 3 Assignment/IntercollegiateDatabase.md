@@ -11,11 +11,11 @@ event plan lines.  In an event plan line, the resource, location, time, and numb
 
 It consists following tables:
 
-Customer
-Employee
-Facility
-Location
-ResourceTbl
-EventRequest
-EventPlan
-EventPlanLine
+1. Customer
+2. Employee
+3. Facility
+4. Location
+5. ResourceTbl
+6. EventRequest
+7. EventPlan
+8. EventPlanLine
