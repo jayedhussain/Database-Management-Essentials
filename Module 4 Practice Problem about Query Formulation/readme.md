@@ -1,5 +1,6 @@
 # Practice Problem about Query Formulation
 Database Diagram:
+
 ![alt text](https://github.com/jayedhussain/Database-Management-Essentials/blob/main/Images/ICADBSCHEMA.png "Relational Database Diagram for the Intercollegiate Athletic Database ")
 
 
