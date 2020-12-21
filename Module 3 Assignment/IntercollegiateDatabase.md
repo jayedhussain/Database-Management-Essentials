@@ -8,7 +8,9 @@ An employee is assigned to manage an event plan before the plan is executed.
 Initially, there may not be an assigned employee.  An event plan consists of one or more 
 event plan lines.  In an event plan line, the resource, location, time, and number of resources 
 (EventPlanLine.Number) are recorded.
+
 It consists following tables:
+
 Customer
 Employee
 Facility
